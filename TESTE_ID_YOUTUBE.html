@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Busca de canal no YouTube</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		header {
+			background-color: #ff0000;
+			color: white;
+			padding: 20px;
+			text-align: center;
+		}
+		form {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			margin: 20px;
+		}
+		label {
+			margin-right: 10px;
+		}
+		input[type=text] {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			flex: 1;
+			max-width: 400px;
+			margin-right: 10px;
+		}
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		button:hover {
+			background-color: #45a049;
+		}
+		.results {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+			margin: 20px;
+		}
+		.results p {
+			margin: 10px;
+			padding: 10px;
+			background-color: #f2f2f2;
+			border-radius: 4px;
+			flex: 1;
+			max-width: 400px;
+			text-align: center;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+	<header>
+		<h1>Busca de canal no YouTube</h1>
+	</header>
+
+	<form id="search-form">
+		<label for="channel-name">Nome do canal:</label>
+		<input type="text" id="channel-name" name="channel-name">
+		<button type="submit">Buscar</button>
+	</form>
+
+	<div class="results" id="results"></div>
+
+	<script>
+		$(document).ready(function() {
+			$("#search-form").submit(function(event) {
+				event.preventDefault();
+				var channelName = $("#channel-name").val();
+				var apiKey = "AIzaSyBFoG9SioPtBkbRRnBQI-aIx-zz4L6MTcI";
+				var apiUrl = "https://www.googleapis.com/youtube/v3/search?part=snippet&type=channel&q=" + encodeURIComponent(channelName) + "&key=" + apiKey;
+
+				$.get(apiUrl, function(data) {
+					if (data.items.length > 0) {
+						var channelId = data.items[0].snippet.channelId;
+						$("#results").html("<p>ID do canal correspondente: " + channelId + "</p>");
+					} else {
+						$("#results").html("<p>Nenhum canal encontrado.</p>");
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
